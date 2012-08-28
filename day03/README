@@ -1,0 +1,9 @@
+HOW TO GET STARTED!
+
+$ chmod +x setup.sh
+$ sudo ./setup.sh
+
+Note:
+	Works for Debian and its derivatives only!
+	For both 32bit and 64bit systems
+
