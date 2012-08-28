@@ -3,7 +3,6 @@
 # day03 Kick-Start
 
 
-
 # TEST BLOCK
         kulab="192.168.5.202"
 	
@@ -14,6 +13,7 @@
 	if [ $SUDO_USER = "rhoit" ]; then
     		kulab="10.0.2.2/~rho"
 	fi
+	echo $kulab
 
 # check_superuser
 	if [ "$USER" != "root" ]; then
@@ -78,10 +78,13 @@
 	yes | apt-get install emacs
 
 # configure .emacs
-#	if [ -e .emacs ]; then
-#	    echo "it exist"
-#	fi
-	
-#	echo -e "\n;;----------------------------------------------------------------------\n"\
-#";; LFG mode\n"\
-#"(load-library \"/home/$SUDO_USER/xle/emacs/lfg-mode\")";
+	grep "LFG mode" "/home/$SUDO_USER/.emacs" > /dev/null
+	if [ $? = 1 ]; then
+	    echo -e "\n####### Adding LFG mode in .emacs ########"
+	    echo -e "\n;;----------------------------------------------------------------------\n"\
+";; LFG mode\n"\
+"(load-library \"/home/$SUDO_USER/xle/emacs/lfg-mode\")" >> "/home/$SUDO_USER/.emacs"
+	fi
+
+
+    
