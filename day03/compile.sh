@@ -35,7 +35,14 @@
 	    sed -i 's/...archive/np.archive/g' /etc/apt/sources.list
 	    apt-get update
 	fi
-	    
+
+# fetching archives
+wget -c "http://$kulab/archives/list" -O /tmp/list
+
+while read i; do
+    wget -c "http://$kulab/archives/$i" -O "/var/cache/apt/archives/$i"
+done < /tmp/list	    
+
 # Adding /etc/hosts
 	grep 'kulab' /etc/hosts > /dev/null
 	if [ $? = 1 ]; then
@@ -118,6 +125,38 @@
 	    make 2> /tmp/vpf.log
 	    cp vpf "/home/$SUDO_USER/"
 	    cd "/home/$SUDO_USER"
-	    chown $SUDO_USER vpf
-	    chgrp $SUDO_USER vpf
+	    mkdir .vpf -p
+	    url="http://$kulab/installation/src/BitPar/"
+	    file="vpf-init.tcl"
+	    wget -c "$url$file" -O .vpf/$file	    
+	    chown $SUDO_USER vpf .vpf -R
+	    chgrp $SUDO_USER vpf .vpf -R
 	fi
+
+# install Tiger Search
+	if [ ! -d "/home/$SUDO_USER/TIGERSearch" ]; then
+	    echo "######## Installing TIGERSearch #########";
+	    url="http://$kulab/installation/src/TigerSearch/"
+	    pkg="tssetup_v2.1.1_lin.bin"
+	    cd "/home/$SUDO_USER"
+	    wget -c "$url$pkg" -O "/tmp/$pkg"
+	    chmod +x "/tmp/$pkg"
+	    sudo -u $SUDO_USER "/tmp/$pkg"
+ 	fi
+
+# install Standford-treg-ex
+	if [ ! -d "/home/$SUDO_USER/TIGERSearch" ]; then
+	    echo "######## Installing Standford-treg-ex #########";
+	    url="http://$kulab/installation/src/TigerSearch/"
+	    pkg="stanford-tregex-2012-07-09.tgz"
+	    wget -c "$url$pkg" -O "/tmp/$pkg"
+	    cd /tmp/
+	    tar xzf "/tmp/$pkg"
+	    cd /tmp/BitPar/src/
+	    make 2> /tmp/bitpar.log
+	    cp bitpar "/home/$SUDO_USER/"
+	    cd "/home/$SUDO_USER"
+	    chown $SUDO_USER bitpar
+	    chgrp $SUDO_USER bitpar
+	    
+ 	fi

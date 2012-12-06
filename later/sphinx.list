@@ -1,0 +1,14 @@
+libpath-class-perl
+sphinx2-bin
+libfile-searchpath-perl
+python-sphinxbase
+libsphinx-search-perl
+libasound2
+libsphinx2g0
+libasound2-dev
+sphinx2-hmm-6k
+libsphinxbase-dev
+sphinxbase-utils
+libsphinxbase1
+sphinxsearch
+libpq5
